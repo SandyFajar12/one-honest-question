@@ -171,6 +171,26 @@
             display: none;
         }
 
+        .send-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
         .yes-answer {
             background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
             color: #ffffff;
@@ -257,6 +277,11 @@
                 min-width: 280px;
             }
 
+            .send-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
             .back-btn {
                 top: 1.5rem;
                 left: 1.5rem;
@@ -292,6 +317,11 @@
                 font-size: 1.1rem;
                 padding: 1.2rem 1.5rem;
                 min-width: 250px;
+            }
+
+            .send-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -338,7 +368,11 @@
                 <a href="#" id="btnYes" class="btn-yes">Yes</a>
                 <a href="#" id="btnNo" class="btn-no">Not yet</a>
             </div>
-            <div id="page2Answer" class="answer"></div>
+            <div id="page2Answer" class="answer">
+                <span id="answerText"></span>
+                <br><br>
+                <button id="sendAnswerBtn" class="send-btn" style="display:none;">Send your answer</button>
+            </div>
         </div>
     </section>
 
@@ -346,14 +380,20 @@
         const btnYes = document.getElementById('btnYes');
         const btnNo = document.getElementById('btnNo');
         const page2Answer = document.getElementById('page2Answer');
+        const answerText = document.getElementById('answerText');
+        const sendAnswerBtn = document.getElementById('sendAnswerBtn');
         const startBtn = document.querySelector('.start-btn');
         const backBtn = document.querySelector('.back-btn');
 
+        let currentAnswer = '';
+
         function resetPage2Answer() {
-            page2Answer.textContent = '';
+            answerText.textContent = '';
+            sendAnswerBtn.style.display = 'none';
             page2Answer.classList.remove('yes-answer', 'no-answer');
             page2Answer.style.display = 'none';
             page2Answer.style.opacity = '0';
+            currentAnswer = '';
         }
 
         resetPage2Answer();
@@ -374,20 +414,32 @@
 
         btnYes.addEventListener('click', function (event) {
             event.preventDefault();
-            page2Answer.textContent = 'Yes, I’d love to.';
+            answerText.textContent = 'Yes, I’d love to.';
             page2Answer.classList.remove('no-answer');
             page2Answer.classList.add('yes-answer');
             page2Answer.style.display = 'block';
             page2Answer.style.opacity = '1';
+            sendAnswerBtn.style.display = 'block';
+            currentAnswer = 'yes';
         });
 
         btnNo.addEventListener('click', function (event) {
             event.preventDefault();
-            page2Answer.textContent = 'No, I need a little more time.';
+            answerText.textContent = 'No, I need a little more time.';
             page2Answer.classList.remove('yes-answer');
             page2Answer.classList.add('no-answer');
             page2Answer.style.display = 'block';
             page2Answer.style.opacity = '1';
+            sendAnswerBtn.style.display = 'block';
+            currentAnswer = 'no';
+        });
+
+        sendAnswerBtn.addEventListener('click', function() {
+            if (currentAnswer === 'yes') {
+                alert('Just making sure… is that a yes?');
+            } else if (currentAnswer === 'no') {
+                alert('Just making sure… is that a no?');
+            }
         });
     </script>
 </body>
